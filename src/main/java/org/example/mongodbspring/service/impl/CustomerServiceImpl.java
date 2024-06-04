@@ -1,10 +1,11 @@
-package org.example.mongodbspring.service;
+package org.example.mongodbspring.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.mongodbspring.configuration.MongoConfig;
+import org.example.mongodbspring.config.MongoConfig;
 import org.example.mongodbspring.dto.CustomerDto;
 import org.example.mongodbspring.entity.Customer;
 import org.example.mongodbspring.repository.CustomerRepository;
+import org.example.mongodbspring.service.CustomerService;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -41,11 +42,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerDto> findAll() {
-        return customerRepository.findAll().stream().map(CustomerDto::new).toList();
-    }
-
-    @Override
     public List<CustomerDto> findAllFromDatabase(String databaseName) {
         MongoTemplate mongoTemplate = mongoConfig.mongoTemplate(databaseName);
         return mongoTemplate.findAll(Customer.class).stream().map(CustomerDto::new).toList();
@@ -53,7 +49,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDto> findAllByLastName(String lastName) {
-        return customerRepository.findAllByLastName(lastName).stream().map(CustomerDto::new).toList();
+        if (lastName == null || lastName.isEmpty()) {
+            return customerRepository.findAll().stream().map(CustomerDto::new).toList();
+        } else {
+            return customerRepository.findAllByLastName(lastName).stream().map(CustomerDto::new).toList();
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.example.mongodbspring.configuration;
+package org.example.mongodbspring.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ public class MongoConfig {
 
     @Bean
     public MongoTemplate mongoTemplate() {
-        return new MongoTemplate(new SimpleMongoClientDatabaseFactory("mongodb://localhost:27017/chicken"));
+        return new MongoTemplate(new SimpleMongoClientDatabaseFactory("mongodb://localhost:27017/users"));
     }
 
     public MongoTemplate mongoTemplate(String databaseName) {

@@ -9,8 +9,6 @@ public interface CustomerService {
 
     void saveToDatabase(String databaseName, CustomerDto customerDto);
 
-    List<CustomerDto> findAll();
-
     List<CustomerDto> findAllFromDatabase(String databaseName);
 
     List<CustomerDto> findAllByLastName(String lastName);

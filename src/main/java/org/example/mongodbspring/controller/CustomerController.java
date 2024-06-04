@@ -1,5 +1,6 @@
 package org.example.mongodbspring.controller;
 
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.example.mongodbspring.dto.CustomerDto;
 import org.example.mongodbspring.service.CustomerService;
@@ -19,34 +20,28 @@ public class CustomerController {
         customerService.save(customerDto);
     }
 
-    @PostMapping("/{databaseName}")
+    @PostMapping("/database/{databaseName}")
     public void saveToDatabase(@RequestBody CustomerDto customerDto, @PathVariable String databaseName) {
         customerService.saveToDatabase(databaseName, customerDto);
     }
 
-    @GetMapping
-    public List<CustomerDto> findAll() {
-        return customerService.findAll();
-    }
-
-    @GetMapping("/{databaseName}")
+    @GetMapping("/database/{databaseName}")
     public List<CustomerDto> findAllFromDatabase(@PathVariable String databaseName) {
         return customerService.findAllFromDatabase(databaseName);
     }
 
-    @GetMapping("/last-name/{lastName}")
-    public List<CustomerDto> findAllByLastName(@PathVariable String lastName) {
+    @GetMapping
+    public List<CustomerDto> findAllByLastName(@RequestParam @Nullable String lastName) {
         return customerService.findAllByLastName(lastName);
     }
 
-    @PutMapping("/first-name/{firstName}")
-    public String findAndReplaceByFirstName(@PathVariable String firstName, @RequestBody CustomerDto customerDto) {
+    @PutMapping
+    public String findAndReplaceByFirstName(@RequestParam String firstName, @RequestBody CustomerDto customerDto) {
         return customerService.findAndReplaceByFirstName(firstName, customerDto);
     }
 
-    @DeleteMapping("/first-name/{firstName}")
-    public String findAndDeleteByFirstName(@PathVariable String firstName) {
+    @DeleteMapping
+    public String findAndDeleteByFirstName(@RequestParam String firstName) {
         return customerService.findAndDeleteByFirstName(firstName);
     }
-
 }
